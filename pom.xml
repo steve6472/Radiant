@@ -16,6 +16,14 @@
         <luau.platform>windows-x64</luau.platform>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>minecraft-libraries</id>
+            <name>Minecraft Libraries</name>
+            <url>https://libraries.minecraft.net</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>dev.hollowcube</groupId>
@@ -26,6 +34,11 @@
             <groupId>dev.hollowcube</groupId>
             <artifactId>luau-natives-${luau.platform}</artifactId>
             <version>${luau.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>steve6472</groupId>
+            <artifactId>SteveCore</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

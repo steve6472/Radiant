@@ -28,7 +28,7 @@ public class LuauScript
 
     public void callFunction(String functionName, int resultCount, Object... args)
     {
-        LOGGER.fine("Call function '%s' args: %s".formatted(functionName, Arrays.toString(args)));
+//        LOGGER.fine("Call function '%s' args: %s".formatted(functionName, Arrays.toString(args)));
 
         state.getGlobal(functionName);
         for (Object arg : args)

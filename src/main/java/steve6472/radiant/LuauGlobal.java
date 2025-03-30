@@ -3,6 +3,7 @@ package steve6472.radiant;
 import net.hollowcube.luau.BuilinLibrary;
 import net.hollowcube.luau.LuaFunc;
 import net.hollowcube.luau.LuaState;
+import net.hollowcube.luau.internal.vm.lua_h;
 
 import java.util.Map;
 
@@ -45,7 +46,8 @@ public class LuauGlobal
     {
         library.init();
         checkSandboxed();
-        state.registerLib(library.name(), library.functions);
+        if (!library.functions.isEmpty())
+            state.registerLib(library.name(), library.functions);
     }
 
     public void openLibs(BuilinLibrary... libraries)
@@ -68,22 +70,36 @@ public class LuauGlobal
         state.pushString(metaTable.typeName);
         state.setTable(-3);
 
+        //        if (metaTable.preventModification)
+//        {
+//            state.pushCFunction(_ -> {
+//                state.error("Attempt to modify a read-only global variable!");
+//                return 0;
+//            }, "prevent_modification");
+//            state.setField(-2, "__newindex");
+//        }
+
         if (metaTable.enableInheritance)
         {
             state.pushString("__index");
             state.pushValue(-2);
         }
         state.setTable(-3);
-        state.registerLib(null, metaTable.functions);
-        state.registerLib(null, metaTable.metamethods);
+        if (!metaTable.functions.isEmpty())
+            state.registerLib(null, metaTable.functions);
+        if (!metaTable.metamethods.isEmpty())
+            state.registerLib(null, metaTable.metamethods);
 
         // Creates a global table with the typeName, gives it "global functions"
         LuauTable table = new LuauTable();
         table.setMetaTable(metaTable);
         table.pushTable(state);
-        metaTable.globalFunctions.forEach((name, function) -> {
-            state.registerLib(null, Map.of(name, function));
-        });
+        if (!metaTable.globalFunctions.isEmpty())
+        {
+            metaTable.globalFunctions.forEach((name, function) -> {
+                state.registerLib(null, Map.of(name, function));
+            });
+        }
         state.setGlobal(metaTable.typeName);
     }
 

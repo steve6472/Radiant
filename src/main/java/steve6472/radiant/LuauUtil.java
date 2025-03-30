@@ -23,8 +23,32 @@ public class LuauUtil
             case Boolean bool -> state.pushBoolean(bool);
             case Double num -> state.pushNumber(num);
             case LuauTable table -> table.pushTable(state);
+            case LuauUserObject userObject -> userObject.pushUserObject(state);
             default -> throw new IllegalStateException("Unexpected value: " + obj);
         }
+    }
+
+    public static Object toJava(LuaState state, int index)
+    {
+        if (state.isNumber(index))
+            return state.toNumber(index);
+        else if (state.isBoolean(index))
+            return state.toBoolean(index);
+        else if (state.isNil(index))
+            return null;
+        else if (state.isTable(index))
+        {
+            LuauTable table = new LuauTable();
+            table.readTable(state, index);
+            return table;
+        } else if (state.isUserData(index))
+            return state.toUserData(index);
+        else if (state.isString(index))
+            return state.toString(index);
+        else if (state.isFunction(index))
+            throw new RuntimeException("Can not convert a function into java object");
+
+        throw new RuntimeException("Unexpected state at %s".formatted(index));
     }
 
     public static void debugStack(LuaState state)

@@ -4,6 +4,7 @@ import net.hollowcube.luau.LuaState;
 
 import steve6472.radiant.func.checks.CheckAny;
 import steve6472.radiant.func.checks.CheckType;
+import steve6472.radiant.func.checks.CheckUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class OverloadFuncArgs
         return this;
     }
 
-    public OverloadFuncArgs custom(steve6472.radiant.func.ArgCheck check)
+    public OverloadFuncArgs custom(ArgCheck check)
     {
         argumentChecks.add(check);
         return this;
@@ -47,6 +48,12 @@ public class OverloadFuncArgs
     private OverloadFuncArgs type(CheckType type)
     {
         argumentChecks.add(type);
+        return this;
+    }
+
+    public OverloadFuncArgs user(String type)
+    {
+        argumentChecks.add(new CheckUser(type));
         return this;
     }
 

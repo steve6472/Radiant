@@ -16,12 +16,12 @@ import java.util.List;
  */
 public class LuaOpsTest
 {
-    private record Test(String value, String otherValue, int someNumber, List<String> tags)
+    private record Test(String value, String otherValue, double someNumber, List<String> tags)
     {
         public static final Codec<Test> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("the_key").forGetter(Test::value),
             Codec.STRING.fieldOf("the_other_key").forGetter(Test::otherValue),
-            Codec.INT.fieldOf("a_number").forGetter(Test::someNumber),
+            Codec.DOUBLE.fieldOf("a_number").forGetter(Test::someNumber),
             Codec.STRING.listOf().fieldOf("tags").forGetter(Test::tags)
         ).apply(instance, Test::new));
     }

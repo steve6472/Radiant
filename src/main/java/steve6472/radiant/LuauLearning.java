@@ -118,6 +118,7 @@ public class LuauLearning
             --local testTable = {}
             --core.dumpWIP(testTable)
             print(core.dump(testTable))
+            core.toJavaTable(testTable)
             
             print("passed arg count test: ")
             print(core.debug_countPassedArguments())
@@ -166,11 +167,11 @@ public class LuauLearning
             LuauScript script = global.createScript("main.luau", bytecode);
             script.run();
 
-            LuauTable table = new LuauTable();
-            table.add("fname", "Margie");
-            table.add("ftype", "name");
-
-            script.callFunction("onEvent", 0, table);
+//            LuauTable table = new LuauTable();
+//            table.add("fname", "Margie");
+//            table.add("ftype", "name");
+//
+//            script.callFunction("onEvent", 0, table);
 
             global.state().pop(1); // the thread was added to the stack, remove it so that it can be garbage collected.
 

@@ -50,6 +50,24 @@ public class LuauTable
         state.setTable(-3);
     }
 
+    public void readTable(LuaState state, int startIndex)
+    {
+        int index = state.absIndex(startIndex);
+        if (!state.isTable(index))
+        {
+            throw new RuntimeException("Not a table");
+        }
+
+        state.pushNil();
+        while (state.next(index))
+        {
+            Object key = LuauUtil.toJava(state, -2);
+            Object value = LuauUtil.toJava(state, -1);
+            table.put(key, value);
+            state.pop(1);
+        }
+    }
+
     public Map<Object, Object> table()
     {
         return table;

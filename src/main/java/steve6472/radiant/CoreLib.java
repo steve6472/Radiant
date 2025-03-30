@@ -23,6 +23,18 @@ public class CoreLib extends LuauLib
             return 1;
         });
 
+        addFunction("toJavaTable", state ->
+        {
+            int index = state.absIndex(1);
+            if (state.isTable(index))
+            {
+                LuauTable table = new LuauTable();
+                table.readTable(state, 1);
+                System.out.println(table);
+            }
+            return 0;
+        });
+
         addFunction("debug_countPassedArguments", state ->
         {
             int argc = state.getTop();

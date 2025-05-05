@@ -62,18 +62,20 @@ public class LuauMetaTable
     }
 
     /// any() type should always be the last added, no automatic sorting is done (steve was lazy)
-    public void addOverloadedFunc(String name, OverloadFuncArgs args, LuaFunc func)
+    public LuauMetaTable addOverloadedFunc(String name, OverloadFuncArgs args, LuaFunc func)
     {
         overloadedFunctions.computeIfAbsent(name, _ -> new ArrayList<>()).add(Pair.of(args, func));
+        return this;
     }
 
     /// any() type should always be the last added, no automatic sorting is done (steve was lazy)
-    public void addOverloadedGlobalFunc(String name, OverloadFuncArgs args, LuaFunc func)
+    public LuauMetaTable addOverloadedGlobalFunc(String name, OverloadFuncArgs args, LuaFunc func)
     {
         overloadedGlobalFunctions.computeIfAbsent(name, _ -> new ArrayList<>()).add(Pair.of(args, func));
+        return this;
     }
 
-    public void processOverloadedFunctions()
+    public LuauMetaTable processOverloadedFunctions()
     {
         overloadedFunctions.forEach((key, list) -> {
             functions.put(key, state -> {
@@ -98,6 +100,7 @@ public class LuauMetaTable
         });
         overloadedFunctions.clear();
         overloadedGlobalFunctions.clear();
+        return this;
     }
 
     private LuaFunc choose(LuaState state, List<Pair<OverloadFuncArgs, LuaFunc>> list)

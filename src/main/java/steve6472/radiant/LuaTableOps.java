@@ -34,9 +34,11 @@ public class LuaTableOps implements DynamicOps<Object>
     }
 
     @Override
-    public Object createMap(Stream<Pair<Object, Object>> arg0)
+    public Object createMap(Stream<Pair<Object, Object>> map)
     {
-        throw new UnsupportedOperationException("Unimplemented method 'createMap'");
+        LuauTable table = new LuauTable();
+        map.forEach(pair -> table.add(pair.getFirst(), pair.getSecond()));
+        return table;
     }
 
     @Override

@@ -2,6 +2,8 @@ package steve6472.radiant;
 
 import net.hollowcube.luau.LuaState;
 
+import java.util.Objects;
+
 /**
  * Created by steve6472
  * Date: 3/19/2025
@@ -33,6 +35,14 @@ public class CoreLib extends LuauLib
                 System.out.println(table);
             }
             return 0;
+        });
+
+        addFunction("toJava", state ->
+        {
+            int index = state.absIndex(1);
+            Object java = LuauUtil.toJava(state, index);
+            state.pushString(Objects.toString(java));
+            return 1;
         });
 
         addFunction("debug_countPassedArguments", state ->

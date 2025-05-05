@@ -25,7 +25,7 @@ public class LuauUtil
             case LuauTable table -> table.pushTable(state);
             case LuauUserObject userObject -> userObject.pushUserObject(state);
             case null -> state.pushNil();
-            default -> throw new IllegalStateException("Unexpected value: " + obj);
+            default -> throw new IllegalStateException("Unexpected value: " + obj + " " + obj.getClass());
         }
     }
 

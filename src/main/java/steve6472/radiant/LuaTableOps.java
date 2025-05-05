@@ -54,6 +54,12 @@ public class LuaTableOps implements DynamicOps<Object>
     }
 
     @Override
+    public Object createBoolean(boolean value)
+    {
+        return value;
+    }
+
+    @Override
     public Object empty()
     {
         return null;
@@ -77,6 +83,16 @@ public class LuaTableOps implements DynamicOps<Object>
             return DataResult.success(value);
         }
         return DataResult.error(() -> "Not a number: " + input);
+    }
+
+    @Override
+    public DataResult<Boolean> getBooleanValue(Object input)
+    {
+        if (input instanceof Boolean bool)
+        {
+            return DataResult.success(bool);
+        }
+        return DataResult.error(() -> "Not a boolean: " + input);
     }
 
     @Override

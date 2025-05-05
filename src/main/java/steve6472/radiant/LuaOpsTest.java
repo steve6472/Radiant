@@ -16,13 +16,14 @@ import java.util.List;
  */
 public class LuaOpsTest
 {
-    private record Test(String value, String otherValue, double someNumber, List<String> tags)
+    private record Test(String value, String otherValue, double someNumber, List<String> tags, boolean flag)
     {
         public static final Codec<Test> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("the_key").forGetter(Test::value),
             Codec.STRING.fieldOf("the_other_key").forGetter(Test::otherValue),
             Codec.DOUBLE.fieldOf("a_number").forGetter(Test::someNumber),
-            Codec.STRING.listOf().fieldOf("tags").forGetter(Test::tags)
+            Codec.STRING.listOf().fieldOf("tags").forGetter(Test::tags),
+            Codec.BOOL.fieldOf("flag").forGetter(Test::flag)
         ).apply(instance, Test::new));
     }
 
@@ -40,7 +41,8 @@ public class LuaOpsTest
             "the_value_but_test",
             "I am STEVE",
             69,
-            List.of("smart", "shart", "shark", "987", "XZY", "ZYX", "aAAAA"));
+            List.of("smart", "shart", "shark", "987", "XZY", "ZYX", "aAAAA"),
+            true);
 
         /*
         JsonObject json = JsonParser.parseString(testJson).getAsJsonObject();

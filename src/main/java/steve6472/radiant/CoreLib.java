@@ -18,6 +18,11 @@ public class CoreLib extends LuauLib
     @Override
     public void createFunctions()
     {
+        addFunction("nanoTime", state -> {
+            state.pushNumber((double) System.nanoTime());
+            return 1;
+        });
+
         addFunction("dump", state ->
         {
             String result = dumpRecursive(state, 1);
@@ -25,7 +30,7 @@ public class CoreLib extends LuauLib
             return 1;
         });
 
-        addFunction("toJavaTable", state ->
+        addFunction("debug_toJavaTable", state ->
         {
             int index = state.absIndex(1);
             if (state.isTable(index))
@@ -37,7 +42,7 @@ public class CoreLib extends LuauLib
             return 0;
         });
 
-        addFunction("toJava", state ->
+        addFunction("debug_toJava", state ->
         {
             int index = state.absIndex(1);
             Object java = LuauUtil.toJava(state, index);
@@ -49,30 +54,6 @@ public class CoreLib extends LuauLib
         {
             int argc = state.getTop();
             state.pushInteger(argc);
-            return 1;
-        });
-
-        addOverloadedFunc("overloadTest", args().bool(), state ->
-        {
-            state.pushString("BOOL");
-            return 1;
-        });
-
-        addOverloadedFunc("overloadTest", args().number(), state ->
-        {
-            state.pushString("NUMBER");
-            return 1;
-        });
-
-        addOverloadedFunc("overloadTest", args().number().number(), state ->
-        {
-            state.pushString("NUMBER, NUMBER");
-            return 1;
-        });
-
-        addOverloadedFunc("overloadTest", args().any(), state ->
-        {
-            state.pushString("ANY");
             return 1;
         });
     }
